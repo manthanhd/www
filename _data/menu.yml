@@ -4,7 +4,7 @@
 entries:
   - title: posts
     post_list:
-      limit: 5
+      limit: 7
       show_more: true
       show_more_text: (more)
       show_more_url: archive.html
