@@ -1,0 +1,21 @@
+---
+layout: default
+---
+<header>
+  <h1>{{ site.title }}</h1>
+  {%-if site.theme_config.show_description-%}
+    <p>{{ site.description }}</p>
+  {%-endif-%}
+</header>
+
+<div style="text-align: center;">
+  <form action="/search.html" method="get" style="display: inline-block;">
+    <!-- <label for="search-box">Search</label> -->
+    <input type="text" id="search-box" name="query" placeholder="type...">
+    <input type="submit" value="search">
+  </form>
+</div>
+
+{%-include menu_item.html collection=site.data.menu.entries-%}
+
+{{ content }}

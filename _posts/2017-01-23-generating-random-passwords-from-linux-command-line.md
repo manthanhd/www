@@ -1,0 +1,27 @@
+---
+id: 546
+title: Generating random passwords from linux command line
+date: 2017-01-23T16:29:08+00:00
+author: Manthan Dave
+layout: post
+guid: https://www.manthanhd.com/?p=546
+permalink: /2017/01/23/generating-random-passwords-from-linux-command-line/
+image: /wp-content/uploads/2017/01/password-info-sec-banner.jpg
+categories:
+  - Findings
+tags:
+  - bash
+  - linux
+  - passwords
+  - security
+  - unix
+---
+Managing production passwords isn't a trivial task. I was trying to deploy a containerized app the other day that had a database deployed with it. During the deployment, I was trying to find an easy way to set a secure password. I didn't want anyone to know the password because I wanted only the application to know it and no one else. Also, the container was setup in a way that the database cannot be accessed from the outside world.
+
+So instead of hard-coding the password, after doing some research, I used the following command:<!--more-->
+<pre class="lang:sh decode:true">&lt; /dev/urandom tr -dc _A-Z-a-z-0-9+= | head -c${1:-32};echo;</pre>
+This might look like some gibberish but it uses linux's <span class="lang:default decode:true crayon-inline ">/dev/urandom</span> to generate some randomness and extracts human readable characters like alphabets, numbers and common symbols like underscores, hyphens, pluses and equals.
+
+Try it! it works!
+
+Now, using clever bash interpolation syntax you can embed this password throughout your script in a secure way.

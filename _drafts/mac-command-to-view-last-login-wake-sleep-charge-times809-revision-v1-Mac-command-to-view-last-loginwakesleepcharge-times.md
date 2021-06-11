@@ -1,0 +1,32 @@
+---
+id: 810
+title: Mac command to view last login/wake/sleep/charge times
+date: 2019-04-30T11:56:31+01:00
+author: Manthan Dave
+layout: revision
+guid: https://www.manthanhd.com/2019/04/30/809-revision-v1/
+permalink: /?p=810
+---
+<!-- wp:paragraph -->
+<p>The pmset utility on mac is quite useful for viewing system logs. If you type:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>pmset -g log</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>you'll be able to see some cool system logs. However, as a timesaver, here's a no-bullshit command to view the following times:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>When mac went into sleep</li><li>When mac came out of sleep</li><li>Charge levels</li><li>Standby times</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>pmset -g log|grep -e " Sleep  " -e " Wake  "</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Enjoy!</p>
+<!-- /wp:paragraph -->
