@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>How to make a login page in ASP .NET C#</title><!-- Begin Jekyll SEO tag v2.7.1 -->
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="How to make a login page in ASP .NET C#" />
+<meta name="author" content="Manthan Dave" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="In this post, I will teach you guys about making a simple login using common page controls. First of all, you need two textboxes, one for username and another for password. I’ll call them usernameTextBox and passwordTextBox for this example. Drag down a button and call it loginButton. Now, in the OnClick event of loginButton, you need to check if the provided combination of username and password is correct or not. You can only do this if you have username and passwords stored somewhere. It is recommended to use a database to do this. Create a AccountDetails table in your database. The table should have username and password fields, both as text (VARCHAR for SQL). The way login is going to work is that you select records from AccountDetails table who have the provided username and password. This query should return one row if the combination matches. If not, then it should return nothing. Here’s the query you need to pass:" />
+<meta property="og:description" content="In this post, I will teach you guys about making a simple login using common page controls. First of all, you need two textboxes, one for username and another for password. I’ll call them usernameTextBox and passwordTextBox for this example. Drag down a button and call it loginButton. Now, in the OnClick event of loginButton, you need to check if the provided combination of username and password is correct or not. You can only do this if you have username and passwords stored somewhere. It is recommended to use a database to do this. Create a AccountDetails table in your database. The table should have username and password fields, both as text (VARCHAR for SQL). The way login is going to work is that you select records from AccountDetails table who have the provided username and password. This query should return one row if the combination matches. If not, then it should return nothing. Here’s the query you need to pass:" />
+<link rel="canonical" href="/www/2012/01/22/how-to-make-a-login-in-asp-net-c/" />
+<meta property="og:url" content="/www/2012/01/22/how-to-make-a-login-in-asp-net-c/" />
+<meta property="og:site_name" content="Manthan’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2012-01-22T01:30:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="How to make a login page in ASP .NET C#" />
+<script type="application/ld+json">
+{"description":"In this post, I will teach you guys about making a simple login using common page controls. First of all, you need two textboxes, one for username and another for password. I’ll call them usernameTextBox and passwordTextBox for this example. Drag down a button and call it loginButton. Now, in the OnClick event of loginButton, you need to check if the provided combination of username and password is correct or not. You can only do this if you have username and passwords stored somewhere. It is recommended to use a database to do this. Create a AccountDetails table in your database. The table should have username and password fields, both as text (VARCHAR for SQL). The way login is going to work is that you select records from AccountDetails table who have the provided username and password. This query should return one row if the combination matches. If not, then it should return nothing. Here’s the query you need to pass:","url":"/www/2012/01/22/how-to-make-a-login-in-asp-net-c/","@type":"BlogPosting","headline":"How to make a login page in ASP .NET C#","dateModified":"2012-01-22T01:30:00+00:00","datePublished":"2012-01-22T01:30:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"/www/2012/01/22/how-to-make-a-login-in-asp-net-c/"},"author":{"@type":"Person","name":"Manthan Dave"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link type="application/atom+xml" rel="alternate" href="/www/feed.xml" title="Manthan's Blog" /><link rel="shortcut icon" type="image/x-icon" href="/www/logo.png" />
+  <link rel="stylesheet" href="/www/assets/css/main.css" />
+</head><body a="auto">
+    <main class="page-content" aria-label="Content">
+      <div class="w">
+        <a href="/www/">..</a><article>
+  <p class="post-meta">
+    <time datetime="2012-01-22 01:30:00 +0000">2012-01-22</time>
+  </p>
+  
+  <h1>How to make a login page in ASP .NET C#</h1>
+
+  <p>In this post, I will teach you guys about making a simple login using common page controls. First of all, you need two textboxes, one for username and another for password. I’ll call them usernameTextBox and passwordTextBox for this example. Drag down a button and call it loginButton. Now, in the OnClick event of loginButton, you need to check if the provided combination of username and password is correct or not. You can only do this if you have username and passwords stored somewhere. It is recommended to use a database to do this. Create a AccountDetails table in your database. The table should have username and password fields, both as text (VARCHAR for SQL). The way login is going to work is that you select records from AccountDetails table who have the provided username and password. This query should return one row if the combination matches. If not, then it should return nothing. Here’s the query you need to pass:</p>
+
+<p><code>string query = "SELECT * FROM AccountDetails WHERE username='"+usernameTextBox.Text + "' AND pass='" + passwordTextBox.Text + "'";
+</code>Supply this query to the command object. This can be OleDbCommand or SqlCommand depending on your type of database. Invoke the ExecuteReader method of the command object and then check if the Read method of the DataReader object returns true. If it does then this means that the login is successful. If not, then login is invalid. Here’s a sample code.</p>
+
+<p><code>string connectionString = "...";
+OleDbConnection conn = new OleDbConnection(connectionString);
+conn.Open();
+string queryString = "SELECT * FROM AccountDetails WHERE username='"+usernameTextBox.Text + "' AND pass='" + passwordTextBox.Text + "'";
+OleDbCommand command = new OleDbCommand(queryString, conn);
+OleDbDataReader reader = command.ExecuteReader();
+if(reader.Read()){
+//Login is successful.
+}else{
+//Login failed.
+}
+</code>Thats it! Your ASP website should now have a wonderful login to allow geniune users. To extend its capabilities, store the username in a session and then in PageLoad event of rest of the pages which require login, check if the session contains something. If it is null, then the page should redirect to login page. Same if for log-out. In the PageLoad event of the login page, check if the session username contains something. If it does, then clear out the session and display some notification saying that the user has been logged out. Now, in your page, to which the user gets redirected after successful login, put a simple link to login.</p>
+
+<p>Now, initially when user lands on the login page, the session username will be empty. However, on typing correct username and password, this session gets filled with the username of the logged user and he/she is redirected to some sort of dashboard page. When the user clicks on the log-out link, he/she gets redirected to the login page which first checks if there is anything in the session. Since the user has previously logged in, there will be a username inside that session. Login page clears it out and displays a message saying that the user has been logged out. I hope that was easy.</p>
+
+<p>If you have any queries or doubts, feel free to comment below.
+If you want to know how session works, click <a href="http://codeninjutsu.blogspot.com/2012/01/using-sessions-in-asp-net.html">here</a> to see my post on Sessions.</p>
+
+</article>
+      </div>
+    </main></body>
+</html>

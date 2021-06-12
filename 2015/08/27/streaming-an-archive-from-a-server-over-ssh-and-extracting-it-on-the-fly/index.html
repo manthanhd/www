@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Streaming an archive from a server over SSH and extracting it on the fly</title><!-- Begin Jekyll SEO tag v2.7.1 -->
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Streaming an archive from a server over SSH and extracting it on the fly" />
+<meta name="author" content="Manthan Dave" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I’d found this command a while ago now but had completely forgotten about it until I stumbled upon it yesterday. So, if you had one or more tar files on a server and wanted to get them all down and then extract them somewhere to do your work, the normal way to achieve that would be:" />
+<meta property="og:description" content="I’d found this command a while ago now but had completely forgotten about it until I stumbled upon it yesterday. So, if you had one or more tar files on a server and wanted to get them all down and then extract them somewhere to do your work, the normal way to achieve that would be:" />
+<link rel="canonical" href="/www/2015/08/27/streaming-an-archive-from-a-server-over-ssh-and-extracting-it-on-the-fly/" />
+<meta property="og:url" content="/www/2015/08/27/streaming-an-archive-from-a-server-over-ssh-and-extracting-it-on-the-fly/" />
+<meta property="og:site_name" content="Manthan’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2015-08-27T18:23:04+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Streaming an archive from a server over SSH and extracting it on the fly" />
+<script type="application/ld+json">
+{"description":"I’d found this command a while ago now but had completely forgotten about it until I stumbled upon it yesterday. So, if you had one or more tar files on a server and wanted to get them all down and then extract them somewhere to do your work, the normal way to achieve that would be:","url":"/www/2015/08/27/streaming-an-archive-from-a-server-over-ssh-and-extracting-it-on-the-fly/","@type":"BlogPosting","headline":"Streaming an archive from a server over SSH and extracting it on the fly","dateModified":"2015-08-27T18:23:04+00:00","datePublished":"2015-08-27T18:23:04+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"/www/2015/08/27/streaming-an-archive-from-a-server-over-ssh-and-extracting-it-on-the-fly/"},"author":{"@type":"Person","name":"Manthan Dave"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link type="application/atom+xml" rel="alternate" href="/www/feed.xml" title="Manthan's Blog" /><link rel="shortcut icon" type="image/x-icon" href="/www/logo.png" />
+  <link rel="stylesheet" href="/www/assets/css/main.css" />
+</head><body a="auto">
+    <main class="page-content" aria-label="Content">
+      <div class="w">
+        <a href="/www/">..</a><article>
+  <p class="post-meta">
+    <time datetime="2015-08-27 18:23:04 +0000">2015-08-27</time>
+  </p>
+  
+  <h1>Streaming an archive from a server over SSH and extracting it on the fly</h1>
+
+  <p>I’d found this command a while ago now but had completely forgotten about it until I stumbled upon it yesterday. So, if you had one or more tar files on a server and wanted to get them all down and then extract them somewhere to do your work, the normal way to achieve that would be:</p>
+
+<p><code>scp awesomeuser@awesomeserver:/tmp/mytarfile.tar /storage/</code></p>
+
+<p>The problem with this is that its a two step action. 1) You download the tar file(s). 2) You extract the downloaded tar file(s). While this is “functional”, here’s an awesome way to do it:<!--more--></p>
+
+<p><code>curl -u awesomeuser: --key /home/awesomeuser/.ssh/id_rsa --pubkey /home/awesomeuser/.ssh/id_rsa.pub scp://awesomeserver/tmp/mytarfile.tar | tar xf -</code></p>
+
+<p>Lets break that down. We’re using the curl command to download the file using <code>awesomeuser</code> as the username (indicated by <code>-u awesomeuser</code>). For authentication, we are using our private and public keys as indicated by <code>--key /home/awesomeuser/.ssh/id_rsa</code> and <code>--pubkey /home/awesomeuser/.ssh/id_rsa.pub</code> flags. We’re then asking the curl command to use the <code>scp</code> protocol for accessing our server (as indicated by <code>scp://awesomeserver</code>) and are then giving it the location of the tar file that we want to download (as indicated by <code>/tmp/mytarfile.tar</code>). Because curl command will output whatever it gets to standard out stream (<code>STDOUT</code>), we’re leveraging this capability by redirecting <code>STDOUT</code> to a pipe which is then fed into the tar command (as indicated by <code>| tar xf -</code>).</p>
+
+<p>In case you have a <code>tar.gz</code> file or a <code>tgz</code> file, use:</p>
+
+<p><code>curl -u awesomeuser: --key /home/awesomeuser/.ssh/id_rsa --pubkey /home/awesomeuser/.ssh/id_rsa.pub scp://awesomeserver/tmp/mytarfile.tar.gz | gunzip -c - | tar xf -</code></p>
+
+<p>Same principle except before the final pipe of <code>tar xf -</code>, we’re squeezing <code>gunzip -c</code> in between to g-unzip the file first before untarring it.</p>
+
+</article>
+      </div>
+    </main></body>
+</html>

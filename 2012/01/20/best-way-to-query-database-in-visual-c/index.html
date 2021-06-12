@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Best way to query database in Visual C#</title><!-- Begin Jekyll SEO tag v2.7.1 -->
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Best way to query database in Visual C#" />
+<meta name="author" content="Manthan Dave" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Best way to query database in C# Well, this is actually not an official way but my personal choice. In this instance, I will use an access database as an example. While querying the database is a long process in C#, it becomes simplified once you use object orientation. First of all, here’s the conventional way of querying the database: string connectionString = &quot;...&quot;; OleDbConnection dbConnection = new OleDbConnection(connectionString); dbConnection.Open(); string queryString = &quot;SELECT * FROM Customers&quot;; OleDbCommand dbCommand = new OleDbCommand(queryString,dbConnection); //since this is select query... OleDbDataReader dr = dbCommand.ExecuteReader(); //and then you do the reading process... Now, if you have a lot of queries to run, then this would be really painful process to do again and again. Hence, it is better to put the process in a method like this: public OleDbDataReader runSelectQuery(string queryString){ string connectionString = &quot;...&quot;; OleDbConnection dbConnection = new OleDbConnection(connectionString); dbConnection.Open(); //using the query string... OleDbCommand dbCommand = new OleDbCommand(queryString,dbConnection); //since this is select query... OleDbDataReader dr = dbCommand.ExecuteReader(); //and then you do the reading process... return dr; } The method takes in the select query string and returns the data reader which can then be used to extract the data. To make this more efficient, make a class and put the above method as static. Also, make the connectionString a global variable so that it if you need to change it, then you only have to change it in one place. In the end, the code would look like this: public class QueryClass{" />
+<meta property="og:description" content="Best way to query database in C# Well, this is actually not an official way but my personal choice. In this instance, I will use an access database as an example. While querying the database is a long process in C#, it becomes simplified once you use object orientation. First of all, here’s the conventional way of querying the database: string connectionString = &quot;...&quot;; OleDbConnection dbConnection = new OleDbConnection(connectionString); dbConnection.Open(); string queryString = &quot;SELECT * FROM Customers&quot;; OleDbCommand dbCommand = new OleDbCommand(queryString,dbConnection); //since this is select query... OleDbDataReader dr = dbCommand.ExecuteReader(); //and then you do the reading process... Now, if you have a lot of queries to run, then this would be really painful process to do again and again. Hence, it is better to put the process in a method like this: public OleDbDataReader runSelectQuery(string queryString){ string connectionString = &quot;...&quot;; OleDbConnection dbConnection = new OleDbConnection(connectionString); dbConnection.Open(); //using the query string... OleDbCommand dbCommand = new OleDbCommand(queryString,dbConnection); //since this is select query... OleDbDataReader dr = dbCommand.ExecuteReader(); //and then you do the reading process... return dr; } The method takes in the select query string and returns the data reader which can then be used to extract the data. To make this more efficient, make a class and put the above method as static. Also, make the connectionString a global variable so that it if you need to change it, then you only have to change it in one place. In the end, the code would look like this: public class QueryClass{" />
+<link rel="canonical" href="/www/2012/01/20/best-way-to-query-database-in-visual-c/" />
+<meta property="og:url" content="/www/2012/01/20/best-way-to-query-database-in-visual-c/" />
+<meta property="og:site_name" content="Manthan’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2012-01-20T15:44:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Best way to query database in Visual C#" />
+<script type="application/ld+json">
+{"description":"Best way to query database in C# Well, this is actually not an official way but my personal choice. In this instance, I will use an access database as an example. While querying the database is a long process in C#, it becomes simplified once you use object orientation. First of all, here’s the conventional way of querying the database: string connectionString = &quot;...&quot;; OleDbConnection dbConnection = new OleDbConnection(connectionString); dbConnection.Open(); string queryString = &quot;SELECT * FROM Customers&quot;; OleDbCommand dbCommand = new OleDbCommand(queryString,dbConnection); //since this is select query... OleDbDataReader dr = dbCommand.ExecuteReader(); //and then you do the reading process... Now, if you have a lot of queries to run, then this would be really painful process to do again and again. Hence, it is better to put the process in a method like this: public OleDbDataReader runSelectQuery(string queryString){ string connectionString = &quot;...&quot;; OleDbConnection dbConnection = new OleDbConnection(connectionString); dbConnection.Open(); //using the query string... OleDbCommand dbCommand = new OleDbCommand(queryString,dbConnection); //since this is select query... OleDbDataReader dr = dbCommand.ExecuteReader(); //and then you do the reading process... return dr; } The method takes in the select query string and returns the data reader which can then be used to extract the data. To make this more efficient, make a class and put the above method as static. Also, make the connectionString a global variable so that it if you need to change it, then you only have to change it in one place. In the end, the code would look like this: public class QueryClass{","url":"/www/2012/01/20/best-way-to-query-database-in-visual-c/","@type":"BlogPosting","headline":"Best way to query database in Visual C#","dateModified":"2012-01-20T15:44:00+00:00","datePublished":"2012-01-20T15:44:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"/www/2012/01/20/best-way-to-query-database-in-visual-c/"},"author":{"@type":"Person","name":"Manthan Dave"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link type="application/atom+xml" rel="alternate" href="/www/feed.xml" title="Manthan's Blog" /><link rel="shortcut icon" type="image/x-icon" href="/www/logo.png" />
+  <link rel="stylesheet" href="/www/assets/css/main.css" />
+</head><body a="auto">
+    <main class="page-content" aria-label="Content">
+      <div class="w">
+        <a href="/www/">..</a><article>
+  <p class="post-meta">
+    <time datetime="2012-01-20 15:44:00 +0000">2012-01-20</time>
+  </p>
+  
+  <h1>Best way to query database in Visual C#</h1>
+
+  <p>Best way to query database in C#
+Well, this is actually not an official way but my personal choice. In this instance, I will use an access database as an example.
+While querying the database is a long process in C#, it becomes simplified once you use object orientation. First of all, here’s the conventional way of querying the database:</p>
+<pre class="lang:c#">string connectionString = "...";
+OleDbConnection dbConnection = new OleDbConnection(connectionString);
+dbConnection.Open();
+string queryString = "SELECT * FROM Customers";
+OleDbCommand dbCommand = new OleDbCommand(queryString,dbConnection);
+//since this is select query...
+OleDbDataReader dr = dbCommand.ExecuteReader();
+//and then you do the reading process...</pre>
+<p>Now, if you have a lot of queries to run, then this would be really painful process to do again and again. Hence, it is better to put the process in a method like this:</p>
+<pre class="lang:c#">public OleDbDataReader runSelectQuery(string queryString){
+string connectionString = "...";
+OleDbConnection dbConnection = new OleDbConnection(connectionString);
+dbConnection.Open();
+//using the query string...
+OleDbCommand dbCommand = new OleDbCommand(queryString,dbConnection);
+//since this is select query...
+OleDbDataReader dr = dbCommand.ExecuteReader();
+//and then you do the reading process...
+return dr;
+}</pre>
+<p>The method takes in the select query string and returns the data reader which can then be used to extract the data. To make this more efficient, make a class and put the above method as static. Also, make the connectionString a global variable so that it if you need to change it, then you only have to change it in one place. In the end, the code would look like this:</p>
+<pre class="lang:c#">public class QueryClass{
+
+private static string connectionString = "...";
+
+public static OleDbDataReader runSelectQuery(string queryString){
+OleDbConnection dbConnection = new OleDbConnection(connectionString);
+dbConnection.Open();
+//using the query string...
+OleDbCommand dbCommand = new OleDbCommand(queryString,dbConnection);
+//since this is select query...
+OleDbDataReader dr = dbCommand.ExecuteReader();
+return dr;
+}
+}</pre>
+<p>Later, to access the method, you’ll just have to do:</p>
+
+<p><code>OleDbDataReader reader = QueryClass.runSelectQuery("SELECT * FROM Customers");
+</code>
+Comment below if you have any queries regarding the code.</p>
+
+</article>
+      </div>
+    </main></body>
+</html>

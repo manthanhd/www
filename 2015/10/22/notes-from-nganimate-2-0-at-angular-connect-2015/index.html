@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Notes from ngAnimate 2.0 at Angular Connect 2015</title><!-- Begin Jekyll SEO tag v2.7.1 -->
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Notes from ngAnimate 2.0 at Angular Connect 2015" />
+<meta name="author" content="Manthan Dave" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Day two" />
+<meta property="og:description" content="Day two" />
+<link rel="canonical" href="/www/2015/10/22/notes-from-nganimate-2-0-at-angular-connect-2015/" />
+<meta property="og:url" content="/www/2015/10/22/notes-from-nganimate-2-0-at-angular-connect-2015/" />
+<meta property="og:site_name" content="Manthan’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2015-10-22T11:05:16+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Notes from ngAnimate 2.0 at Angular Connect 2015" />
+<script type="application/ld+json">
+{"description":"Day two","url":"/www/2015/10/22/notes-from-nganimate-2-0-at-angular-connect-2015/","@type":"BlogPosting","headline":"Notes from ngAnimate 2.0 at Angular Connect 2015","dateModified":"2015-10-22T11:05:16+00:00","datePublished":"2015-10-22T11:05:16+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"/www/2015/10/22/notes-from-nganimate-2-0-at-angular-connect-2015/"},"author":{"@type":"Person","name":"Manthan Dave"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link type="application/atom+xml" rel="alternate" href="/www/feed.xml" title="Manthan's Blog" /><link rel="shortcut icon" type="image/x-icon" href="/www/logo.png" />
+  <link rel="stylesheet" href="/www/assets/css/main.css" />
+</head><body a="auto">
+    <main class="page-content" aria-label="Content">
+      <div class="w">
+        <a href="/www/">..</a><article>
+  <p class="post-meta">
+    <time datetime="2015-10-22 11:05:16 +0000">2015-10-22</time>
+  </p>
+  
+  <h1>Notes from ngAnimate 2.0 at Angular Connect 2015</h1>
+
+  <p>Day two</p>
+
+<p>14:30</p>
+
+<p>ngAnimate 2.0 by Robert Masserie</p>
+
+<p>No longer css. Css doesn’t allow complex logic. Using domain specific language (DSL).</p>
+
+<p>Json file dictates chaining and choreography. Json is limited as it doesn’t alow dynamic logic. Represents static data.</p>
+
+<p>Now using full DSL with full programmatic API.</p>
+
+<!--more-->
+
+<p>ngAnimate 2.0 is a proof of concept as of now.</p>
+
+<p>Use of animation factory to create animations. Still allows one to define static animations but one can also use the programmatic API to include complex logic in animation flows. Seamlessly switch between parallel and sequential animations.</p>
+
+<p>Stagger animations by specifying key frames at various points in progress. For instance, apply colour change at 25%, and scaling at, 75%.</p>
+
+<p>It comes with better event integration. For instance trigger a modal animation from the point of click on the button. This is possible using the programmatic API.</p>
+
+<p>Now talking about Material Design.</p>
+
+<p>Pretty difficult to do using angular 1 as some of the animations originated from the point of click.</p>
+
+<p>Now, listen on click events and then run the ngAnimate functions to handle the animations programmatically.</p>
+
+<p>Tab animations are tricky because it animates the tabs themselves, the ink bar that transitions left or right and the actual content below. This is implemented in angular 2 by setting the tab index and then programmatically loading the rest or the animations I. E. Left or right based on what the tab index is.</p>
+
+<p>Now talking about what ngAnimate will be able to.</p>
+
+<p>Rich unit testing, performance tuning, migration and adaptive styling look like interesting goals.</p>
+
+<p>Animation asserts help test if an animation sequence has happened or not in unit test.</p>
+
+<p>Addressing performance by no longer doing reflows. Also pre calculating delays to provide more efficient animations.</p>
+
+<p>Considering an upgrade path from ngAnimate 1 to 2.</p>
+
+<p>Ability to control animations at any stage. Pause, fast forward or reverse. Showed a demo with a slider controlling full animation sequence of a mix of asynchronous and synchronous animation flows.</p>
+
+</article>
+      </div>
+    </main></body>
+</html>

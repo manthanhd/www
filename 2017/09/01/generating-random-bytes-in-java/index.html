@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Generating random bytes in Java</title><!-- Begin Jekyll SEO tag v2.7.1 -->
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Generating random bytes in Java" />
+<meta name="author" content="Manthan Dave" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I recently needed to generate a bit of randomness in Java in order to produce a secret. Java comes built in with Random and SecureRandom classes which can help you do this properly but as with all things, there are multiple ways of doing things." />
+<meta property="og:description" content="I recently needed to generate a bit of randomness in Java in order to produce a secret. Java comes built in with Random and SecureRandom classes which can help you do this properly but as with all things, there are multiple ways of doing things." />
+<link rel="canonical" href="/www/2017/09/01/generating-random-bytes-in-java/" />
+<meta property="og:url" content="/www/2017/09/01/generating-random-bytes-in-java/" />
+<meta property="og:site_name" content="Manthan’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-09-01T07:06:27+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Generating random bytes in Java" />
+<script type="application/ld+json">
+{"description":"I recently needed to generate a bit of randomness in Java in order to produce a secret. Java comes built in with Random and SecureRandom classes which can help you do this properly but as with all things, there are multiple ways of doing things.","url":"/www/2017/09/01/generating-random-bytes-in-java/","@type":"BlogPosting","headline":"Generating random bytes in Java","dateModified":"2017-09-01T07:06:27+00:00","datePublished":"2017-09-01T07:06:27+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"/www/2017/09/01/generating-random-bytes-in-java/"},"author":{"@type":"Person","name":"Manthan Dave"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link type="application/atom+xml" rel="alternate" href="/www/feed.xml" title="Manthan's Blog" /><link rel="shortcut icon" type="image/x-icon" href="/www/logo.png" />
+  <link rel="stylesheet" href="/www/assets/css/main.css" />
+</head><body a="auto">
+    <main class="page-content" aria-label="Content">
+      <div class="w">
+        <a href="/www/">..</a><article>
+  <p class="post-meta">
+    <time datetime="2017-09-01 07:06:27 +0000">2017-09-01</time>
+  </p>
+  
+  <h1>Generating random bytes in Java</h1>
+
+  <p>I recently needed to generate a bit of randomness in Java in order to produce a secret. Java comes built in with <code>Random</code> and <code>SecureRandom</code> classes which can help you do this properly but as with all things, there are multiple ways of doing things.</p>
+
+<p>Two of these stood out to me.</p>
+
+<p><strong>Generate a long random number as <code>String</code>, convert to hex and then convert it to bytes.</strong></p>
+<pre class="lang:java decode:true">SecureRandom random = new SecureRandom();
+byte[] randomBytes = Long.toHexString(random.nextLong()).getBytes();</pre>
+<p>You could potentially improve this method by not just converting the long number to hex string but also maybe base64 encoding it. You could potentially go further by adding additional entropy to it by filling in random bytes in random indices.</p>
+
+<p>But as it stands above, the benefit of this method is that it is very quick to run. This may vary based on your random seed but I have found the above method to consistently produce byte arrays of size 14-16. This might be good enough in most cases - especially due to the fact that its fast, but in times where you might need very high amounts of entropy, the second approach might suit you.</p>
+
+<p>My personal discontent with this method is that the bytes it produces will be chunked by the length of each individual hex character due to the fact that it is coming from a hex string. This, arguably is not very random. Arguably because although every individual hex characters are themselves in random order, the bytes generated off of those will have identifiable chunks representing each hex character. The second approach resolves this problem in a simpler way.</p>
+
+<p>Another issue I have with this approach is that the total size is limited to the maximum value a Long can support (2<sup>63</sup>-1). The size of Long data structure limits the length of hex string that gets generated which in turn limits total number of bytes produced.</p>
+
+<p>The approach below resolves most of these issues.</p>
+
+<p><strong>Generate a array of random size composed of bytes and then let <code>SecureRandom</code> fill in those bytes.</strong></p>
+<pre class="lang:java decode:true">SecureRandom random = new SecureRandom();
+int byteArraySize = Math.abs(random.nextInt());
+byte[] randomBytes = new byte[byteArraySize];
+random.nextBytes(randomBytes);</pre>
+<p>Here, we’re creating a byte array of random size and then using secure random to fill that byte array in with random bytes. Its simple and elegant. However, as with all things, this has pros and cons of its own.</p>
+
+<p>In my experiments, I have found the range of the byte array to be truly random. In a test that I ran, once it created a byte array of size 8890 while in another time, it created an array so large, I lost my patience and had to quit the process.</p>
+
+<p>This poses a problem where your program could take a long time to generate your secret. Furthermore, it could potentially even go out of stack memory if the array becomes too large.</p>
+
+<p>You can resolve this issue by setting a bound to the <code>random.nextInt</code> which is being used to determine the size of the byte array. I cannot tell you what size here is most optimal because it really depends on the capabilities of the processor you’re running on, your stack size as well as the algorithm you’re using to initialise <code>SecureRandom</code>. An implementation limiting the size of the byte array may look like following:</p>
+<pre class="lang:java decode:true">SecureRandom random = new SecureRandom();
+int byteArraySize = Math.abs(random.nextInt(20));
+byte[] randomBytes = new byte[byteArraySize];
+random.nextBytes(randomBytes);</pre>
+<p>Here the size of the byte array will be between 0 and 20.</p>
+
+<p>Also, please note that without the <code>Math.abs</code> the value for <code>byteArraySize</code> could be negative. If you initialise your array with a negative number for size, you will get <code>NegativeArraySizeException</code>.</p>
+
+</article>
+      </div>
+    </main></body>
+</html>

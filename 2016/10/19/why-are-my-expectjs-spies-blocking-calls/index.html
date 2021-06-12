@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Why are my ExpectJS spies blocking calls?</title><!-- Begin Jekyll SEO tag v2.7.1 -->
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Why are my ExpectJS spies blocking calls?" />
+<meta name="author" content="Manthan Dave" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="While I love writing tests in JavaScript, it is sometimes incredibly painful to debug through the asynchronous test code. Today, a weirdness with ExpectJS happened. I had the following test code: var contextStore = { put: function (id, context, callback) { return callback(undefined, context); }," />
+<meta property="og:description" content="While I love writing tests in JavaScript, it is sometimes incredibly painful to debug through the asynchronous test code. Today, a weirdness with ExpectJS happened. I had the following test code: var contextStore = { put: function (id, context, callback) { return callback(undefined, context); }," />
+<link rel="canonical" href="/www/2016/10/19/why-are-my-expectjs-spies-blocking-calls/" />
+<meta property="og:url" content="/www/2016/10/19/why-are-my-expectjs-spies-blocking-calls/" />
+<meta property="og:site_name" content="Manthan’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2016-10-19T20:31:54+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Why are my ExpectJS spies blocking calls?" />
+<script type="application/ld+json">
+{"description":"While I love writing tests in JavaScript, it is sometimes incredibly painful to debug through the asynchronous test code. Today, a weirdness with ExpectJS happened. I had the following test code: var contextStore = { put: function (id, context, callback) { return callback(undefined, context); },","url":"/www/2016/10/19/why-are-my-expectjs-spies-blocking-calls/","@type":"BlogPosting","headline":"Why are my ExpectJS spies blocking calls?","dateModified":"2016-10-19T20:31:54+00:00","datePublished":"2016-10-19T20:31:54+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"/www/2016/10/19/why-are-my-expectjs-spies-blocking-calls/"},"author":{"@type":"Person","name":"Manthan Dave"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link type="application/atom+xml" rel="alternate" href="/www/feed.xml" title="Manthan's Blog" /><link rel="shortcut icon" type="image/x-icon" href="/www/logo.png" />
+  <link rel="stylesheet" href="/www/assets/css/main.css" />
+</head><body a="auto">
+    <main class="page-content" aria-label="Content">
+      <div class="w">
+        <a href="/www/">..</a><article>
+  <p class="post-meta">
+    <time datetime="2016-10-19 20:31:54 +0000">2016-10-19</time>
+  </p>
+  
+  <h1>Why are my ExpectJS spies blocking calls?</h1>
+
+  <p>While I love writing tests in JavaScript, it is sometimes incredibly painful to debug through the asynchronous test code. Today, a weirdness with ExpectJS happened. I had the following test code:</p>
+<pre class="lang:js decode:true">var contextStore = {
+    put: function (id, context, callback) {
+        return callback(undefined, context);
+    },
+
+    get: function (id, callback) {
+        return callback(undefined, undefined);
+    }
+};
+
+var contextStore_putSpy = expect.spyOn(contextStore, 'put');
+var contextStore_getSpy = expect.spyOn(contextStore, 'get');
+
+var bot = new Bot({contextStore: contextStore});
+
+return bot.resolve(123, "Hello. Hi", function (err, messages) {
+    if (err) return done(err);
+
+    expect(contextStore_putSpy).toHaveBeenCalled();
+    expect(contextStore_getSpy).toHaveBeenCalled();
+    return done();
+});</pre>
+<p>Simple right? Nope. Some how my callback was not being called which was preventing the test from finishing which in turn caused a test failure. I spent good amount of time debugging step by step and finally found the issue.</p>
+
+<p>My fake contextStore was not being called. Hmm. How can this happen? I’ve defined functions that do respond asynchronously and have set spies on them as well. If anything, my spies should tell me that the function has been called!</p>
+
+<p>Nothing could be further away from the truth! Well, you see, spies work differently in Java than in JavaScript. While using Mockito with Java, I’ve found that Spies never block the calls on the object that they are spying on unless explicitly told to. However, this behaviour different in JavaScript. ExpectJS blocks the calls to spies unless told otherwise!</p>
+
+<p>At the end, solution was simple. I changed lines 11 and 12 to:</p>
+<pre class="lang:js decode:true ">var contextStore_putSpy = expect.spyOn(contextStore, 'put').andCallThrough();
+var contextStore_getSpy = expect.spyOn(contextStore, 'get').andCallThrough();</pre>
+<p>Boom! And it worked!</p>
+
+</article>
+      </div>
+    </main></body>
+</html>

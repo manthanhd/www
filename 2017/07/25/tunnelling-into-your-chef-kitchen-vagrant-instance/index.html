@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Tunnelling into your Chef Kitchen Vagrant instance</title><!-- Begin Jekyll SEO tag v2.7.1 -->
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Tunnelling into your Chef Kitchen Vagrant instance" />
+<meta name="author" content="Manthan Dave" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="So you’ve just done this: kitchen create default-centos-72 And now something has gone wrong on the box and you need to tunnel through to check something on your instance (say mysql database). Whatever the port may be, you need to change your current directory to where the vagrant file is. This can be achieved by running the following command relative to where your kitchen file is: cd .kitchen/kitchen-vagrant/kitchen-default-centos72 List the directory and you will be able to see a Vagrantfile in it. Once you are there, run: vagrant ssh -- -L 3306:localhost:3306 Here I’m using mysql port 3306, you can replace it with whatever port you want to tunnel through." />
+<meta property="og:description" content="So you’ve just done this: kitchen create default-centos-72 And now something has gone wrong on the box and you need to tunnel through to check something on your instance (say mysql database). Whatever the port may be, you need to change your current directory to where the vagrant file is. This can be achieved by running the following command relative to where your kitchen file is: cd .kitchen/kitchen-vagrant/kitchen-default-centos72 List the directory and you will be able to see a Vagrantfile in it. Once you are there, run: vagrant ssh -- -L 3306:localhost:3306 Here I’m using mysql port 3306, you can replace it with whatever port you want to tunnel through." />
+<link rel="canonical" href="/www/2017/07/25/tunnelling-into-your-chef-kitchen-vagrant-instance/" />
+<meta property="og:url" content="/www/2017/07/25/tunnelling-into-your-chef-kitchen-vagrant-instance/" />
+<meta property="og:site_name" content="Manthan’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-07-25T09:04:46+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Tunnelling into your Chef Kitchen Vagrant instance" />
+<script type="application/ld+json">
+{"description":"So you’ve just done this: kitchen create default-centos-72 And now something has gone wrong on the box and you need to tunnel through to check something on your instance (say mysql database). Whatever the port may be, you need to change your current directory to where the vagrant file is. This can be achieved by running the following command relative to where your kitchen file is: cd .kitchen/kitchen-vagrant/kitchen-default-centos72 List the directory and you will be able to see a Vagrantfile in it. Once you are there, run: vagrant ssh -- -L 3306:localhost:3306 Here I’m using mysql port 3306, you can replace it with whatever port you want to tunnel through.","url":"/www/2017/07/25/tunnelling-into-your-chef-kitchen-vagrant-instance/","@type":"BlogPosting","headline":"Tunnelling into your Chef Kitchen Vagrant instance","dateModified":"2017-07-25T09:04:46+00:00","datePublished":"2017-07-25T09:04:46+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"/www/2017/07/25/tunnelling-into-your-chef-kitchen-vagrant-instance/"},"author":{"@type":"Person","name":"Manthan Dave"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link type="application/atom+xml" rel="alternate" href="/www/feed.xml" title="Manthan's Blog" /><link rel="shortcut icon" type="image/x-icon" href="/www/logo.png" />
+  <link rel="stylesheet" href="/www/assets/css/main.css" />
+</head><body a="auto">
+    <main class="page-content" aria-label="Content">
+      <div class="w">
+        <a href="/www/">..</a><article>
+  <p class="post-meta">
+    <time datetime="2017-07-25 09:04:46 +0000">2017-07-25</time>
+  </p>
+  
+  <h1>Tunnelling into your Chef Kitchen Vagrant instance</h1>
+
+  <p>So you’ve just done this:</p>
+<pre class="lang:sh decode:true ">kitchen create default-centos-72</pre>
+<p>And now something has gone wrong on the box and you need to tunnel through to check something on your instance (say mysql database). Whatever the port may be, you need to change your current directory to where the vagrant file is. This can be achieved by running the following command relative to where your kitchen file is:</p>
+<pre class="lang:sh decode:true ">cd .kitchen/kitchen-vagrant/kitchen-default-centos72</pre>
+<p>List the directory and you will be able to see a Vagrantfile in it. Once you are there, run:</p>
+<pre class="lang:sh decode:true">vagrant ssh -- -L 3306:localhost:3306</pre>
+<p>Here I’m using mysql port 3306, you can replace it with whatever port you want to tunnel through.</p>
+
+<p>If you want to tunnel multiple ports, run:</p>
+<pre class="lang:sh decode:true ">vagrant ssh -- -L 3306:localhost:3306 -L 27017:localhost:27017</pre>
+<p>Repeating -L &lt;BIND_ADDRESS&gt; multiple times.</p>
+
+</article>
+      </div>
+    </main></body>
+</html>

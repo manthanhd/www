@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Useful Docker commands</title><!-- Begin Jekyll SEO tag v2.7.1 -->
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Useful Docker commands" />
+<meta name="author" content="Manthan Dave" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Managing containers Remove all old containers: docker ps -a | grep &#39;weeks ago&#39; | awk &#39;{print $1}&#39; | xargs --no-run-if-empty docker rm Remove all stopped containers:" />
+<meta property="og:description" content="Managing containers Remove all old containers: docker ps -a | grep &#39;weeks ago&#39; | awk &#39;{print $1}&#39; | xargs --no-run-if-empty docker rm Remove all stopped containers:" />
+<link rel="canonical" href="/www/2016/03/16/useful-docker-commands/" />
+<meta property="og:url" content="/www/2016/03/16/useful-docker-commands/" />
+<meta property="og:site_name" content="Manthan’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2016-03-16T21:23:40+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Useful Docker commands" />
+<script type="application/ld+json">
+{"description":"Managing containers Remove all old containers: docker ps -a | grep &#39;weeks ago&#39; | awk &#39;{print $1}&#39; | xargs --no-run-if-empty docker rm Remove all stopped containers:","url":"/www/2016/03/16/useful-docker-commands/","@type":"BlogPosting","headline":"Useful Docker commands","dateModified":"2016-03-16T21:23:40+00:00","datePublished":"2016-03-16T21:23:40+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"/www/2016/03/16/useful-docker-commands/"},"author":{"@type":"Person","name":"Manthan Dave"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link type="application/atom+xml" rel="alternate" href="/www/feed.xml" title="Manthan's Blog" /><link rel="shortcut icon" type="image/x-icon" href="/www/logo.png" />
+  <link rel="stylesheet" href="/www/assets/css/main.css" />
+</head><body a="auto">
+    <main class="page-content" aria-label="Content">
+      <div class="w">
+        <a href="/www/">..</a><article>
+  <p class="post-meta">
+    <time datetime="2016-03-16 21:23:40 +0000">2016-03-16</time>
+  </p>
+  
+  <h1>Useful Docker commands</h1>
+
+  <h1>Managing containers</h1>
+<p>Remove all old containers:</p>
+<pre class="lang:sh decode:true">docker ps -a | grep 'weeks ago' | awk '{print $1}' | xargs --no-run-if-empty docker rm</pre>
+<p>Remove all stopped containers:</p>
+
+<!--more-->
+<pre class="lang:sh decode:true">docker ps -a | grep 'Exited' | awk '{print $1}' | xargs --no-run-if-empty docker rm</pre>
+<h1>Managing images</h1>
+<p>Remove all untagged images:</p>
+<pre class="lang:sh decode:true ">docker rmi $(docker images -a | grep "^&lt;none&gt;" | awk '{print $3}')</pre>
+<p>Remove all untagged images (force):</p>
+<pre class="lang:sh decode:true ">docker rmi -f $(docker images -a | grep "^&lt;none&gt;" | awk '{print $3}')</pre>
+<p> </p>
+
+</article>
+      </div>
+    </main></body>
+</html>

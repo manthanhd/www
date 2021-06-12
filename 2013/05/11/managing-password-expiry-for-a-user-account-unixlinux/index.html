@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Managing password expiry for a user account (Unix/Linux)</title><!-- Begin Jekyll SEO tag v2.7.1 -->
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Managing password expiry for a user account (Unix/Linux)" />
+<meta name="author" content="Manthan Dave" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I find this very useful on several occasions so here we go. Login as root and execute the following: passwd -x -1" />
+<meta property="og:description" content="I find this very useful on several occasions so here we go. Login as root and execute the following: passwd -x -1" />
+<link rel="canonical" href="/www/2013/05/11/managing-password-expiry-for-a-user-account-unixlinux/" />
+<meta property="og:url" content="/www/2013/05/11/managing-password-expiry-for-a-user-account-unixlinux/" />
+<meta property="og:site_name" content="Manthan’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2013-05-11T19:41:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Managing password expiry for a user account (Unix/Linux)" />
+<script type="application/ld+json">
+{"description":"I find this very useful on several occasions so here we go. Login as root and execute the following: passwd -x -1","url":"/www/2013/05/11/managing-password-expiry-for-a-user-account-unixlinux/","@type":"BlogPosting","headline":"Managing password expiry for a user account (Unix/Linux)","dateModified":"2013-05-11T19:41:00+00:00","datePublished":"2013-05-11T19:41:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"/www/2013/05/11/managing-password-expiry-for-a-user-account-unixlinux/"},"author":{"@type":"Person","name":"Manthan Dave"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link type="application/atom+xml" rel="alternate" href="/www/feed.xml" title="Manthan's Blog" /><link rel="shortcut icon" type="image/x-icon" href="/www/logo.png" />
+  <link rel="stylesheet" href="/www/assets/css/main.css" />
+</head><body a="auto">
+    <main class="page-content" aria-label="Content">
+      <div class="w">
+        <a href="/www/">..</a><article>
+  <p class="post-meta">
+    <time datetime="2013-05-11 19:41:00 +0000">2013-05-11</time>
+  </p>
+  
+  <h1>Managing password expiry for a user account (Unix/Linux)</h1>
+
+  <p>I find this very useful on several occasions so here we go. Login as root and execute the following:
+<code>passwd -x -1 </code></p>
+
+<p>So if you want to remove password expiry from bob’s account, type:
+<code>passwd -x -1 bob</code></p>
+
+<p>Notice that -1 parameter after -x represents number of days before the password expires. Since we do not want the password to expire, we have set it to -1. However, you can set it to any value you want. So, if you want your password to expire after 90 days (i.e. 3 months) for bob’s account, type:
+<code>passwd -x 90 bob</code></p>
+
+</article>
+      </div>
+    </main></body>
+</html>

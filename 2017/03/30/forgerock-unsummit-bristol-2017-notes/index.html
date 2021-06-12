@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Forgerock UnSummit Bristol 2017 Notes</title><!-- Begin Jekyll SEO tag v2.7.1 -->
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Forgerock UnSummit Bristol 2017 Notes" />
+<meta name="author" content="Manthan Dave" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="10:00 Kickoff" />
+<meta property="og:description" content="10:00 Kickoff" />
+<link rel="canonical" href="/www/2017/03/30/forgerock-unsummit-bristol-2017-notes/" />
+<meta property="og:url" content="/www/2017/03/30/forgerock-unsummit-bristol-2017-notes/" />
+<meta property="og:site_name" content="Manthan’s Blog" />
+<meta property="og:image" content="/www/wp-content/uploads/2017/03/IMG_1140-800x600.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-03-30T10:07:19+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="/www/wp-content/uploads/2017/03/IMG_1140-800x600.jpg" />
+<meta property="twitter:title" content="Forgerock UnSummit Bristol 2017 Notes" />
+<script type="application/ld+json">
+{"description":"10:00 Kickoff","url":"/www/2017/03/30/forgerock-unsummit-bristol-2017-notes/","@type":"BlogPosting","headline":"Forgerock UnSummit Bristol 2017 Notes","dateModified":"2017-03-30T10:07:19+00:00","datePublished":"2017-03-30T10:07:19+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"/www/2017/03/30/forgerock-unsummit-bristol-2017-notes/"},"image":"/www/wp-content/uploads/2017/03/IMG_1140-800x600.jpg","author":{"@type":"Person","name":"Manthan Dave"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link type="application/atom+xml" rel="alternate" href="/www/feed.xml" title="Manthan's Blog" /><link rel="shortcut icon" type="image/x-icon" href="/www/logo.png" />
+  <link rel="stylesheet" href="/www/assets/css/main.css" />
+</head><body a="auto">
+    <main class="page-content" aria-label="Content">
+      <div class="w">
+        <a href="/www/">..</a><article>
+  <p class="post-meta">
+    <time datetime="2017-03-30 10:07:19 +0000">2017-03-30</time>
+  </p>
+  
+  <h1>Forgerock UnSummit Bristol 2017 Notes</h1>
+
+  <h2 id="1000-kickoff">10:00 Kickoff</h2>
+
+<p>[caption id=”attachment_580” align=”aligncenter” width=”700”]<a href="https://www.manthanhd.com/wp-content/uploads/2017/03/IMG_1141.jpg"><img class="size-large wp-image-580" src="https://www.manthanhd.com/wp-content/uploads/2017/03/IMG_1141-700x525.jpg" alt="Agenda of the day" width="700" height="525" /></a> Finalised agenda of the day @ Forgerock UnSummit Bristol 2017[/caption]</p>
+
+<h2 id="forgerock-on-docker">Forgerock on Docker</h2>
+
+<p>Start off with base docker image containing OpenAM. This docker image has a folder for config which can be volume mounted to allow loading custom config. During runtime, it detects the config and runs it against amster (ssoadm replacement).<!--more--></p>
+
+<p>Autonomous instances will allow clustering of OpenDJs so that the OpenAM servers don’t have to know about individual OpenDJs.</p>
+
+<p><code>ssoadm</code> will for each command, create JVM, load context, run the command, destroy context and then finally destroy JVM. This slows down the tool by a significant amount. The new tool <code>amster</code> supports sessions where once fired, it creates a session and then any command can be run in that session more effectively than <code>ssoadm</code>.</p>
+
+<p>All future versions of OpenAM will be able to import the configuration from their previous versions. So, OpenAM 15 will know out of the box how to import config from OpenAM 14.</p>
+
+<p>New OpenDJ proxy allows orchestration of OpenDJ instances in a shard fashion. Helps with elastic scaling.</p>
+
+<p>Docker expects logs to be in <code>stdout</code>. OpenAM has a new audit framework (common framework across all products) which can be used to send out logs to different output endpoints like <code>stdout</code>, <code>splunk</code> etc.</p>
+
+<h2 id="cloud-readiness">Cloud Readiness</h2>
+
+<p>Use ELB / HA Proxy in front of OpenDJ instances within a region. This helps openam instances avoid knowing individual opendj servers that they have access to. Potentially use one ELB pe region, then use Route 53 to use geo-location to resolve to relavent ELB. Use replication manager to enable replication amongst those OpenDJ instances. General consensus on avoiding ELB as it has unpredictable behaviour at TCP level at times (struggles to handle big spikes of load since it needs to be prewarmed).</p>
+
+<h2 id="forgerock-roadmap">Forgerock Roadmap</h2>
+
+<h3 id="openam-14145">OpenAM 14/14.5</h3>
+
+<p>OpenAM 14.5 brings stateless architecture to authentication modules. This means that the authentication chain can be used across openam servers without having to have sticky sessions.</p>
+
+<p>Amster brings remote management to OpenAM. Unlike <code>ssoadm</code> where you had to be on the server in order to run it, <code>amster</code> can run remotely as it uses the openam’s restful APIs.</p>
+
+<p>Support for authentication trees (directed asyclic graphs) in order to enable consumers use complex flows.</p>
+
+<p>(14.0) Push authentication allows authenticating mid authentication chain from mobile directly from the user. This can be done using something like Touch ID etc.</p>
+
+<p>(14.5) Push authorisation allows authorising of specific transaction or activity mid session directly from the user. This can be done using something like Touch ID etc.</p>
+
+<h3 id="opendj-445">OpenDJ 4/4.5</h3>
+
+<p>Proxy services will allow horizontal scalability. This is done by replicating the sharding architecture like the NoSQL databases.</p>
+
+<ul>
+  <li>
+    <p>Loadbalancing and failover</p>
+  </li>
+  <li>
+    <p>High availability</p>
+  </li>
+  <li>
+    <p>Access control</p>
+  </li>
+</ul>
+
+<p>Platform improvements will ease continuous delivery using tools like amster and being able to use kubernetes on top of docker containers. The release will come with official base docker containers which can be extended as needed.</p>
+
+<ul>
+  <li>
+    <p>DevOps</p>
+  </li>
+  <li>
+    <p>Docker containers</p>
+  </li>
+</ul>
+
+<p>Database</p>
+
+<ul>
+  <li>Memory Backend</li>
+</ul>
+
+<p>Security</p>
+
+<ul>
+  <li>Database encryption</li>
+</ul>
+
+<h2 id="stateless-application-architecture">Stateless application architecture</h2>
+
+<p>Typically during authentication, when a token is issued, the token itself is a reference to its details that are stored in OpenDJ. This does not work at scale because of the eventual consistency with OpenDJ.</p>
+
+<p>With stateless sessions, these details are stored in the token itself and when the token is presented, it is unpacked and validated (decrypted and signature verified).</p>
+
+<p>However, this presents a new problem. What happens when the session is invalidated explicitly, outside of the session timeout? Well, this requires a black list. While the black list will only contain tokens that have been explicitly invalidated outside of their timeouts, once the timeout passes, they are removed. This keeps things tidy.</p>
+
+<h2 id="openam-ui-customization">OpenAM UI Customization</h2>
+
+<p>Setup themes in <code>ThemeConfiguration.js</code> file within the XUI war.</p>
+
+</article>
+      </div>
+    </main></body>
+</html>

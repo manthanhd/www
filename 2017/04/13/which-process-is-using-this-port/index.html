@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Which process is using this port?</title><!-- Begin Jekyll SEO tag v2.7.1 -->
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Which process is using this port?" />
+<meta name="author" content="Manthan Dave" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Sometimes, I get errors like “address is already in use” but struggle to find out what’s using that port. This happens especially with loads of stuff running in background like docker, vagrant vms, local server instances, ssh tunnels etc." />
+<meta property="og:description" content="Sometimes, I get errors like “address is already in use” but struggle to find out what’s using that port. This happens especially with loads of stuff running in background like docker, vagrant vms, local server instances, ssh tunnels etc." />
+<link rel="canonical" href="/www/2017/04/13/which-process-is-using-this-port/" />
+<meta property="og:url" content="/www/2017/04/13/which-process-is-using-this-port/" />
+<meta property="og:site_name" content="Manthan’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-04-13T06:27:16+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Which process is using this port?" />
+<script type="application/ld+json">
+{"description":"Sometimes, I get errors like “address is already in use” but struggle to find out what’s using that port. This happens especially with loads of stuff running in background like docker, vagrant vms, local server instances, ssh tunnels etc.","url":"/www/2017/04/13/which-process-is-using-this-port/","@type":"BlogPosting","headline":"Which process is using this port?","dateModified":"2017-04-13T06:27:16+00:00","datePublished":"2017-04-13T06:27:16+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"/www/2017/04/13/which-process-is-using-this-port/"},"author":{"@type":"Person","name":"Manthan Dave"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link type="application/atom+xml" rel="alternate" href="/www/feed.xml" title="Manthan's Blog" /><link rel="shortcut icon" type="image/x-icon" href="/www/logo.png" />
+  <link rel="stylesheet" href="/www/assets/css/main.css" />
+</head><body a="auto">
+    <main class="page-content" aria-label="Content">
+      <div class="w">
+        <a href="/www/">..</a><article>
+  <p class="post-meta">
+    <time datetime="2017-04-13 06:27:16 +0000">2017-04-13</time>
+  </p>
+  
+  <h1>Which process is using this port?</h1>
+
+  <p>Sometimes, I get errors like “address is already in use” but struggle to find out what’s using that port. This happens especially with loads of stuff running in background like docker, vagrant vms, local server instances, ssh tunnels etc.</p>
+
+<p>Here’s an easy way to figure out whats running on a certain port:</p>
+<pre class="lang:sh decode:true">netstat -vanp tcp | grep 8080</pre>
+<p>The second last column refers to the process using that port.</p>
+
+<p>For example, running that on my mac:</p>
+<pre class="lang:sh decode:true">➜ ~ netstat -vanp tcp | grep 8080
+tcp4 0 0 *.8080 *.* LISTEN 65536 65536 5500 0</pre>
+<p>Indicates that process ID <span class="lang:default decode:true  crayon-inline ">5500</span> is using port <span class="lang:default decode:true  crayon-inline">8080</span>. Doing a process check on that tells me:</p>
+<pre class="lang:sh decode:true">➜ ~ ps -ef | grep 5500
+394661014 5500 5443 0 7:15am ?? 0:42.61 /Applications/VirtualBox.app/Contents/MacOS/VBoxHeadless --comment kitchen-awesomevm --startvm b459e3ea-566b-4184-a109-cf97338958aa --vrde config</pre>
+<p>Hope this helps!</p>
+
+</article>
+      </div>
+    </main></body>
+</html>

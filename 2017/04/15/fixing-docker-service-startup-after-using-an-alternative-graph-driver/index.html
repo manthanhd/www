@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Fixing docker service startup after using an alternative graph driver</title><!-- Begin Jekyll SEO tag v2.7.1 -->
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Fixing docker service startup after using an alternative graph driver" />
+<meta name="author" content="Manthan Dave" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="So I was playing around with devicemapper docker storage driver the other day. It was quite nice but when I stopped the modified docker daemon and tried to start the docker service in “normal” way, I received the following error: root@carbon:~# service docker start Job for docker.service failed because the control process exited with error code. See &quot;systemctl status docker.service&quot; and &quot;journalctl -xe&quot; for details. Clearly something had gone wrong. Upon running: systemctl status docker.service I found the following line most helpful in fixing the error: Jan 24 22:33:17 carbon dockerd[3753]: Error starting daemon: error initializing graphdriver: /var/lib/docker contains several valid graphdrivers: devicemapper, aufs; Please cleanup or explicitly choose storage driver (-s So I ran the following command in order to remove my devicemapper driver: rm -rf /var/lib/docker/devicemapper Boom it worked!" />
+<meta property="og:description" content="So I was playing around with devicemapper docker storage driver the other day. It was quite nice but when I stopped the modified docker daemon and tried to start the docker service in “normal” way, I received the following error: root@carbon:~# service docker start Job for docker.service failed because the control process exited with error code. See &quot;systemctl status docker.service&quot; and &quot;journalctl -xe&quot; for details. Clearly something had gone wrong. Upon running: systemctl status docker.service I found the following line most helpful in fixing the error: Jan 24 22:33:17 carbon dockerd[3753]: Error starting daemon: error initializing graphdriver: /var/lib/docker contains several valid graphdrivers: devicemapper, aufs; Please cleanup or explicitly choose storage driver (-s So I ran the following command in order to remove my devicemapper driver: rm -rf /var/lib/docker/devicemapper Boom it worked!" />
+<link rel="canonical" href="/www/2017/04/15/fixing-docker-service-startup-after-using-an-alternative-graph-driver/" />
+<meta property="og:url" content="/www/2017/04/15/fixing-docker-service-startup-after-using-an-alternative-graph-driver/" />
+<meta property="og:site_name" content="Manthan’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-04-15T11:02:18+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Fixing docker service startup after using an alternative graph driver" />
+<script type="application/ld+json">
+{"description":"So I was playing around with devicemapper docker storage driver the other day. It was quite nice but when I stopped the modified docker daemon and tried to start the docker service in “normal” way, I received the following error: root@carbon:~# service docker start Job for docker.service failed because the control process exited with error code. See &quot;systemctl status docker.service&quot; and &quot;journalctl -xe&quot; for details. Clearly something had gone wrong. Upon running: systemctl status docker.service I found the following line most helpful in fixing the error: Jan 24 22:33:17 carbon dockerd[3753]: Error starting daemon: error initializing graphdriver: /var/lib/docker contains several valid graphdrivers: devicemapper, aufs; Please cleanup or explicitly choose storage driver (-s So I ran the following command in order to remove my devicemapper driver: rm -rf /var/lib/docker/devicemapper Boom it worked!","url":"/www/2017/04/15/fixing-docker-service-startup-after-using-an-alternative-graph-driver/","@type":"BlogPosting","headline":"Fixing docker service startup after using an alternative graph driver","dateModified":"2017-04-15T11:02:18+00:00","datePublished":"2017-04-15T11:02:18+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"/www/2017/04/15/fixing-docker-service-startup-after-using-an-alternative-graph-driver/"},"author":{"@type":"Person","name":"Manthan Dave"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link type="application/atom+xml" rel="alternate" href="/www/feed.xml" title="Manthan's Blog" /><link rel="shortcut icon" type="image/x-icon" href="/www/logo.png" />
+  <link rel="stylesheet" href="/www/assets/css/main.css" />
+</head><body a="auto">
+    <main class="page-content" aria-label="Content">
+      <div class="w">
+        <a href="/www/">..</a><article>
+  <p class="post-meta">
+    <time datetime="2017-04-15 11:02:18 +0000">2017-04-15</time>
+  </p>
+  
+  <h1>Fixing docker service startup after using an alternative graph driver</h1>
+
+  <p>So I was playing around with devicemapper docker storage driver the other day. It was quite nice but when I stopped the modified docker daemon and tried to start the docker service in “normal” way, I received the following error:</p>
+<pre class="lang:default decode:true ">root@carbon:~# service docker start
+Job for docker.service failed because the control process exited with error code. See "systemctl status docker.service" and "journalctl -xe" for details.</pre>
+<p>Clearly something had gone wrong. Upon running:</p>
+<pre class="lang:sh decode:true ">systemctl status docker.service</pre>
+<p>I found the following line most helpful in fixing the error:</p>
+<pre class="lang:default decode:true ">Jan 24 22:33:17 carbon dockerd[3753]: Error starting daemon: error initializing graphdriver: /var/lib/docker contains several valid graphdrivers: devicemapper, aufs; Please cleanup or explicitly choose storage driver (-s</pre>
+<p>So I ran the following command in order to remove my devicemapper driver:</p>
+<pre class="lang:sh decode:true ">rm -rf /var/lib/docker/devicemapper</pre>
+<p>Boom it worked!</p>
+
+<p>Alternatively, I could’ve backed it up to tmp instead by running:</p>
+<pre class="lang:sh decode:true ">mv /var/lib/docker/devicemapper /tmp/</pre>
+<p>But I didn’t need any of my images anyway so I removed it.</p>
+
+<p>Hope this helps.</p>
+
+</article>
+      </div>
+    </main></body>
+</html>

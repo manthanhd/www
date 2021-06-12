@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Fixing ubuntu desktop&#8217;s wifi disconnect issue on wake</title><!-- Begin Jekyll SEO tag v2.7.1 -->
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Fixing ubuntu desktop’s wifi disconnect issue on wake" />
+<meta name="author" content="Manthan Dave" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="For about more than half the time, when I wake my ubuntu laptop from sleep, I will lose wifi. When I say lose, I mean I lose the wlan0 interface completely." />
+<meta property="og:description" content="For about more than half the time, when I wake my ubuntu laptop from sleep, I will lose wifi. When I say lose, I mean I lose the wlan0 interface completely." />
+<link rel="canonical" href="/www/2017/05/11/fixing-ubuntu-desktops-wifi-disconnect-issue-on-wake/" />
+<meta property="og:url" content="/www/2017/05/11/fixing-ubuntu-desktops-wifi-disconnect-issue-on-wake/" />
+<meta property="og:site_name" content="Manthan’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-05-11T05:33:47+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Fixing ubuntu desktop’s wifi disconnect issue on wake" />
+<script type="application/ld+json">
+{"description":"For about more than half the time, when I wake my ubuntu laptop from sleep, I will lose wifi. When I say lose, I mean I lose the wlan0 interface completely.","url":"/www/2017/05/11/fixing-ubuntu-desktops-wifi-disconnect-issue-on-wake/","@type":"BlogPosting","headline":"Fixing ubuntu desktop’s wifi disconnect issue on wake","dateModified":"2017-05-11T05:33:47+00:00","datePublished":"2017-05-11T05:33:47+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"/www/2017/05/11/fixing-ubuntu-desktops-wifi-disconnect-issue-on-wake/"},"author":{"@type":"Person","name":"Manthan Dave"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link type="application/atom+xml" rel="alternate" href="/www/feed.xml" title="Manthan's Blog" /><link rel="shortcut icon" type="image/x-icon" href="/www/logo.png" />
+  <link rel="stylesheet" href="/www/assets/css/main.css" />
+</head><body a="auto">
+    <main class="page-content" aria-label="Content">
+      <div class="w">
+        <a href="/www/">..</a><article>
+  <p class="post-meta">
+    <time datetime="2017-05-11 05:33:47 +0000">2017-05-11</time>
+  </p>
+  
+  <h1>Fixing ubuntu desktop&#8217;s wifi disconnect issue on wake</h1>
+
+  <p>For about more than half the time, when I wake my ubuntu laptop from sleep, I will lose wifi. When I say lose, I mean I lose the <code>wlan0</code> interface completely.</p>
+
+<p>Now this is a problem because I quite like having wifi and normally there seems to be no way to turn it back on from that little wifi menu from the top right corner.</p>
+
+<p>After doing some googling, I found a crude yet simple solution. Restart the <code>network-manager</code> service by running the following:</p>
+<pre class="lang:sh decode:true ">sudo service network-manager restart</pre>
+<p>Right before writing this article, I had to run that command and now it all works buttery smooth. Maybe there is a more permanent fix, I will keep an eye out for it and when I can find some time, will dig in to some logs somewhere to actually find the issue but for now, this is satisfactory (meh) to my current needs.</p>
+
+</article>
+      </div>
+    </main></body>
+</html>

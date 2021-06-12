@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Setting up corporate proxy on Docker for mac</title><!-- Begin Jekyll SEO tag v2.7.1 -->
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Setting up corporate proxy on Docker for mac" />
+<meta name="author" content="Manthan Dave" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Working with Docker on corporate proxy is a painful experience. Mainly because there aren’t many guides available to do it. Finally after banging my head on the desk for a long time, my friend and colleague at https://nextmetaphor.io showed me how to do it." />
+<meta property="og:description" content="Working with Docker on corporate proxy is a painful experience. Mainly because there aren’t many guides available to do it. Finally after banging my head on the desk for a long time, my friend and colleague at https://nextmetaphor.io showed me how to do it." />
+<link rel="canonical" href="/www/2017/01/19/setting-up-corporate-proxy-on-docker-for-mac/" />
+<meta property="og:url" content="/www/2017/01/19/setting-up-corporate-proxy-on-docker-for-mac/" />
+<meta property="og:site_name" content="Manthan’s Blog" />
+<meta property="og:image" content="/www/wp-content/uploads/2017/01/docker-turtles-banner-network-copy-800x267.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-01-19T09:42:16+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="/www/wp-content/uploads/2017/01/docker-turtles-banner-network-copy-800x267.jpg" />
+<meta property="twitter:title" content="Setting up corporate proxy on Docker for mac" />
+<script type="application/ld+json">
+{"description":"Working with Docker on corporate proxy is a painful experience. Mainly because there aren’t many guides available to do it. Finally after banging my head on the desk for a long time, my friend and colleague at https://nextmetaphor.io showed me how to do it.","url":"/www/2017/01/19/setting-up-corporate-proxy-on-docker-for-mac/","@type":"BlogPosting","headline":"Setting up corporate proxy on Docker for mac","dateModified":"2017-01-19T09:42:16+00:00","datePublished":"2017-01-19T09:42:16+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"/www/2017/01/19/setting-up-corporate-proxy-on-docker-for-mac/"},"image":"/www/wp-content/uploads/2017/01/docker-turtles-banner-network-copy-800x267.jpg","author":{"@type":"Person","name":"Manthan Dave"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link type="application/atom+xml" rel="alternate" href="/www/feed.xml" title="Manthan's Blog" /><link rel="shortcut icon" type="image/x-icon" href="/www/logo.png" />
+  <link rel="stylesheet" href="/www/assets/css/main.css" />
+</head><body a="auto">
+    <main class="page-content" aria-label="Content">
+      <div class="w">
+        <a href="/www/">..</a><article>
+  <p class="post-meta">
+    <time datetime="2017-01-19 09:42:16 +0000">2017-01-19</time>
+  </p>
+  
+  <h1>Setting up corporate proxy on Docker for mac</h1>
+
+  <p>Working with Docker on corporate proxy is a painful experience. Mainly because there aren’t many guides available to do it. Finally after banging my head on the desk for a long time, my friend and colleague at <a href="https://nextmetaphor.io">https://nextmetaphor.io</a> showed me how to do it.</p>
+
+<p>First of all, fire up your terminal and open up docker tty in screen.</p>
+<pre class="lang:sh decode:true">screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/tty</pre>
+<p>If you see a blank screen, press enter. You should see a prompt.</p>
+
+<p>Make sure you are in the docker VM by typing the hostname command. You should see the response as moby. If your response is other than that, try that screen command again.</p>
+<pre class="lang:sh decode:true">/ # hostname
+moby</pre>
+<p>Now we want to view docker’s routing table. This is because we’ll need to find out the IP address of the host machine that is running the proxy. This is specific to my setup where I have a charles proxy server running on my machine which proxies to the remote corporate proxy.</p>
+<pre class="lang:sh decode:true">/ # netstat -rn
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+0.0.0.0         192.168.65.1    0.0.0.0         UG        0 0          0 eth0
+172.17.0.0      0.0.0.0         255.255.0.0     U         0 0          0 docker0
+192.168.65.0    0.0.0.0         255.255.255.240 U         0 0          0 eth0</pre>
+<p>Get the gateway entry for 0.0.0.0. In my case this is 192.168.65.1. That’s the IP for the host machine running docker. For the proxy running on your local machine, just map it to the port. My charles server is running on port 8099 so my proxy will be:</p>
+
+<p>http://192.168.65.1:8099</p>
+
+<p>Close screen by pressing <strong>Ctrl + a \ </strong>key. Once you’ve exited, open up docker for mac preferences.</p>
+
+<p>Go to the “advanced” tab and fill out your proxy settings.</p>
+
+<p>Hit apply and restart when done!</p>
+
+<p>Your Docker for Mac should now work harmoniously with your proxy!</p>
+
+</article>
+      </div>
+    </main></body>
+</html>
