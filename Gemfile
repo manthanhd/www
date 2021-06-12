@@ -18,8 +18,11 @@ gem "no-style-please"
 group :jekyll_plugins do
   gem "jekyll-feed", "~> 0.12"
   gem "jekyll-seo-tag", "~> 2.6"
+  gem 'jekyll-timeago', '~> 0.13.1'
   # gem "github-pages", "~> 215"
 end
+
+gem 'kramdown-syntax-coderay', '~> 1.0', '>= 1.0.1'
 
 # Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem
 # and associated library.
